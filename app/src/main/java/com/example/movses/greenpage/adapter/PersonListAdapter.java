@@ -3,11 +3,13 @@ package com.example.movses.greenpage.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -41,7 +43,7 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view= LayoutInflater.from(context).inflate(R.layout.item_layout,parent,false
         );
-        return new ViewHolder(view, context, personList ) ;
+        return new ViewHolder(view) ;
 
 
 
@@ -59,7 +61,13 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
                 .apply(new RequestOptions().error(R.drawable.ic_launcher_background).circleCrop())
                 .into(holder.profileImage);
         changeColor(person.isSex(),holder.name,holder.surname);
-
+        holder.itemLayout.setOnClickListener(v -> {
+            Intent intent= new Intent(context, DetailsActivity.class);
+            intent.putExtra("img_url", person.getImgUrl());
+            intent.putExtra("name", person.getName());
+            intent.putExtra("surname", person.getSurname());
+            context.startActivity(intent);
+        });
 
 
     }
@@ -71,41 +79,23 @@ public class PersonListAdapter extends RecyclerView.Adapter<PersonListAdapter.Vi
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView profileImage;
         private TextView name;
         private TextView surname;
-        List<Person> personList=new ArrayList<Person>();
-        Context context;
+        private LinearLayout itemLayout;
 
-
-
-
-        public ViewHolder(View itemView, Context context, List personlist)  {
+        public ViewHolder(View itemView)  {
             super(itemView);
-            itemView.setOnClickListener(this);
-
             profileImage=itemView.findViewById(R.id.profile_image);
             name=itemView.findViewById(R.id.name);
             surname=itemView.findViewById(R.id.surname);
-
+            itemLayout=(LinearLayout) itemView.findViewById(R.id.layout);
         }
 
-        @Override
-        public void onClick(View view) {
-            int position= getAdapterPosition();
 
-            Person person=this.personList.get(position);
-
-            Intent intent= new Intent(context, DetailsActivity.class);
-            intent.putExtra("img_url", person.getImgUrl());
-            intent.putExtra("name", person.getName());
-            intent.putExtra("surname", person.getSurname());
-
-
-
-        }
     }
+
     private void changeColor(boolean gender,TextView... view){
         if (!gender){
             view[0].setTextColor(context.getResources().getColor(R.color.female_color));
