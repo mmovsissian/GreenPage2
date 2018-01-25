@@ -1,5 +1,6 @@
 package com.example.movses.greenpage.activities;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
@@ -44,12 +45,20 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
 
+//        Intent mIntent = getIntent();
+//        int intValue = mIntent.getIntExtra("position", -1);
+//
+//        if(intValue!=-1){
+//            Intent intent= new Intent(this, DetailsActivity.class);
+//            intent.putExtra("img_url", getPersonList().get(intValue).getImgUrl());
+//            intent.putExtra("name", getPersonList().get(intValue).getName());
+//            intent.putExtra("surname", getPersonList().get(intValue).getSurname());
+//
+//        }
 
 
 
-//        search.setOnClickListener((View event) ->{
-//            filter(editsearch.getText().toString());
-//        });
+
 
 
         editsearch.addTextChangedListener(new TextWatcher() {
@@ -115,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
         personList.add(new Person("Armine","Ghevondyan",false,"https://i1.rgstatic.net/ii/profile.image/569303440924674-1512743925674_Q64/Samara_Danel.jpg"));
         personList.add(new Person("Gayane","Karapetyan",false,"https://cdn.slidesharecdn.com/profile-photo-carologic-48x48.jpg?cb=1512956919"));
         return personList;
+
     }
 
     private void filter(String text) {
